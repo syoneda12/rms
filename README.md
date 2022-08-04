@@ -35,5 +35,8 @@ DBはMySql
 - 一般(general)
 - 営業(view)
 
+### 画面とロールの関連
+![画面とロールの関連](https://user-images.githubusercontent.com/62499574/182859700-d3b0a4dd-661e-4dd8-903b-63ff5e790b3b.png)
+
 ### ER図
 ![ER](https://user-images.githubusercontent.com/62499574/182854209-40750ed5-4af0-4a40-88da-d93b804c60f6.png)
