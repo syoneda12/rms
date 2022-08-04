@@ -1,5 +1,5 @@
-# rms
-学習用 RoR-WEB アプリケーション  
+# rms - 学習用WEB アプリケーション(Ruby on Rails)
+  
 ### 概要
 ユーザースキルを管理するシステムをRoRで作成した。   
 DBはMySql  
