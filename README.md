@@ -1,4 +1,4 @@
-# rms - 学習用WEB アプリケーション(Ruby on Rails)
+# rms - 学習用WEBアプリケーション(Ruby on Rails)
   
 ### 概要
 ユーザースキルを管理するシステムをRoRで作成した。   
