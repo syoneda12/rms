@@ -1,0 +1,36 @@
+<% content_for :title do %>
+    統計
+<% end %>
+<div class="search-form">
+  <%= form_with(scope: :search, url: statistics_path, method: :get, local: true) do |f| %>
+    <div class="field" style="display:none;">
+        <%= f.text_field :name, value: "d" %>
+    </div>
+    <div class="field">
+        <% SkillLevel.all.each do |skill_level| %>
+          <div>
+            <%= f.check_box :skill_level_id,
+                            { multiple: true,
+                              checked: @search_params.present? ? @search_params.include?(skill_level.id.to_s) : false },  #・・・①
+                              skill_level.id, nil %>
+            <span><%= skill_level.name %></span>
+          </div>
+        <% end %>
+    </div>
+    <div class="actions">
+       <%=f.submit "検索", class:"btn btn-primary" %>
+    </div>
+  <% end %>
+</div>
+
+
+<% @statistics_hash.each do |kind_name, skill_detail_ary| %>
+    <h3><%= kind_name%></h3>
+    <table class="table  table-striped  table-bordered">
+        <tr><th>スキル名</th><th>人数</th></tr>
+        <% skill_detail_ary.each do |skill_detail_hash| %>
+            <tr><td><%= skill_detail_hash["skill_name"]%></td><td><%= skill_detail_hash["number"]%></td></tr>
+        <% end %>
+    </table>
+    </br>
+<% end %>

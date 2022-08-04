@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+  <% if logged_in? %>
+  <body>
+    <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow navbar-expand-lg">
+        <%= link_to 'Rails_Practice', root_path(@current_user), { method: :get, class: "navbar-brand col-sm-3 col-md-2 mr-0"} %>
+        <% if logged_in? %>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav" style="margin-left:65%">
+            <li class="nav-item">
+              <%= link_to 'マイアカウント編集', edit_user_path(@current_user), { method: :get, class: "nav-link"} %>
+            </li>
+            <li class="nav-item">
+               <%= link_to 'パスワード変更', password_path(@current_user), { method: :get, class: "nav-link"} %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "ログアウト", logout_path, { method: :delete, data: {confirm: "ログアウトしますか？"}, class: "nav-link"} %>
+            </li>
+          </ul>
+        </div>
+        <% end %>
+    </nav>
+    <div class="container-fluid">
+      <div class="row">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+          <div class="sidebar-sticky">
+            <ul class="nav flex-column">
+              <li class="nav-item"><%= link_to "ホーム", root_path , { method: :get, class: "nav-link"} %></li>
+              <% if current_user_general? %>
+                <li class="nav-item"><%= link_to '統計', statistics_path , { method: :get, class: "nav-link"} %></li>
+                <li class="nav-item"><%= link_to 'ユーザー検索', users_path , { method: :get, class: "nav-link"} %></li>
+                <li class="nav-item"><%= link_to '配置図', organizations_path , { method: :get, class: "nav-link"} %></li>
+              <% elsif current_user_manager? %>
+                <li class="nav-item"><%= link_to '統計', statistics_path , { method: :get, class: "nav-link"} %></li>
+                <li class="nav-item"><%= link_to 'ユーザー検索', users_path , { method: :get, class: "nav-link"} %></li>
+                <li class="nav-item"><%= link_to '配置図', organizations_path , { method: :get, class: "nav-link"} %></li>
+              <% elsif current_user_view? %>
+                <li class="nav-item"><%= link_to '統計', statistics_path , { method: :get, class: "nav-link"} %></li>
+                <li class="nav-item"><%= link_to 'ユーザー検索', users_path , { method: :get, class: "nav-link"} %></li>
+                <li class="nav-item"><%= link_to '配置図', organizations_path , { method: :get, class: "nav-link"} %></li>
+              <% elsif current_user_admin? %>
+                <li class="nav-item"><%= link_to '統計', statistics_path , { method: :get, class: "nav-link"} %></li>
+                <li class="nav-item"><%= link_to 'ユーザー検索', users_path , { method: :get, class: "nav-link"} %></li>
+                <li class="nav-item"><%= link_to 'ユーザー追加', new_user_path , { method: :get, class: "nav-link"} %></li>
+                <li class="nav-item"><%= link_to '配置図', organizations_path , { method: :get, class: "nav-link"} %></li>
+                <li class="nav-item"><%= link_to 'マスタ', masters_path , { method: :get, class: "nav-link"} %></li>
+              <% elsif current_user_system_admin? %>
+                <li class="nav-item"><%= link_to 'ユーザー追加', new_user_path , { method: :get, class: "nav-link"} %></li>
+                <li class="nav-item"><%= link_to 'マスタ', masters_path , { method: :get, class: "nav-link"} %></li>
+              <% end %>
+              
+            </ul>
+          </div>
+        </nav>
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <title><%= content_for?(:title) ? yield(:title) : "None"%></title>
+            <h1 class="h2"><%= content_for?(:title) ? yield(:title) : "None"%></h1>
+          </div>
+          <% if flash[:notice] %>
+            <p class="text-success"><%= flash[:notice] %></p>
+          <% end %>
+          <% if flash[:alert]%>
+            <p class="text-danger"><%= flash[:alert] %></p>
+          <% end %>
+          <%= yield %>
+        </main>
+      </div>
+    </div>
+  </body>
+<% else %>
+  <%= yield %>
+<% end %>
+</html>

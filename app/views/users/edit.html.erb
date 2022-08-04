@@ -1,0 +1,5 @@
+<%= javascript_include_tag 'users_edit.js', 'data-turbolinks-track' => true %>
+<% content_for :title do %>
+    アカウント編集
+<% end %>
+<%= render 'form', path: user_path(@user), method: :put %>

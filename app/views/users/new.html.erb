@@ -1,0 +1,75 @@
+<% content_for :title do %>
+    ユーザー追加
+<% end %>
+<%= form_with model:@user, local:true do |f|%>
+  <div class="col-sm-6">
+      <div class="form-group">
+        <label class="control-label" for="">email</label>
+        <%= f.text_field :email, value: @user[:email], class: 'form-control' %>
+      </div>
+  </div>
+  <div class="col-sm-6">
+      <div class="form-group">
+        <label class="control-label" for="">パスワード</label>
+        <%= f.password_field :password,  class: 'form-control' %>
+      </div>
+  </div>
+  <div class="col-sm-6">
+      <div class="form-group">
+        <label class="control-label" for="">パスワード(確認)</label>
+        <%= f.password_field :password_confirmation,  class: 'form-control' %>
+      </div>
+  </div>
+  <div class="col-sm-6">
+      <div class="form-group">
+        <label class="control-label" for="">名前</label>
+        <%= f.text_field :name, value: @user[:name], class: 'form-control' %>
+      </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="form-group">
+      <label class="control-label" for="">所属</label>
+      <%= f.collection_select :department_id, Department.all, :id, :name, options = {include_blank: true,  selected: @user[:department_id]}, class: 'form-control'  %>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="form-group">
+      <label class="control-label" for="">役職</label>
+      <%= f.collection_select :role_id, Role.all, :id, :name, options = {include_blank: true,  selected: @user[:role_id]}, class: 'form-control'  %>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="form-group">
+      <label class="control-label" for="">誕生日</label>
+      <%= f.date_field :birthday, value: @user[:birthday], class: 'form-control' %>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="form-group">
+      <label class="control-label" for="">業界経験年数</label>
+      <%= f.text_field :years_of_experience, value: @user[:years_of_experience], class: 'form-control' %>
+      </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="form-group">
+      <label class="control-label" for="">住所</label>
+      <%= f.text_field :address, value: @user[:address], class: 'form-control' %>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="form-group">
+      <label class="control-label" for="">最寄り駅</label>
+      <%= f.text_field :closest_station, value: @user[:closest_station], class: 'form-control' %>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="form-group">
+      <label class="control-label" for="">性別</label>
+      <%= f.collection_select :gender, User.genders, :first, :first, options = {include_blank: true,  selected: @user[:gender]}, class: 'form-control'  %>
+    </div>
+  </div>
+
+<div class="text-center">
+  <%= f.submit '登録', class: 'btn btn-primary' %>
+</div>
+<% end %>

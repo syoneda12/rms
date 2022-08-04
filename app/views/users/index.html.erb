@@ -1,0 +1,108 @@
+<%= javascript_include_tag 'users_index.js', 'data-turbolinks-track' => true %>
+<% content_for :title do %>
+    ユーザー検索
+<% end %>
+<div class="search-form">
+  <%= form_with(scope: :search, url: users_path, method: :get, local: true) do |f| %>
+    <div class="field">
+      名前：
+      <%= f.text_field :name, value: @search_params[:name] %>
+    </div>
+    <div class="field">
+        性別：
+        <%= f.collection_select :gender, User.genders, :first, :first, options = {include_blank: true,  selected: @search_params[:gender]}  %>
+    </div>
+    <div class="field">
+        所属：
+        <%= f.collection_select :department_id, Department.all, :id, :name, options = {include_blank: true,  selected: @search_params[:department_id]}  %>
+    </div>
+    <div class="field">
+      誕生日：
+      <%= f.date_field :birthday_from, value: @search_params[:birthday_from] %> ~ <%= f.date_field :birthday_to, value: @search_params[:birthday_to] %>
+    </div>
+    <% if current_user_manager? %>
+      <label class="control-label" for="">部下絞り込み</label>：
+      <%= f.check_box :subordinate, {}, true, false %>
+    <% end %>
+    <div style="position: relative;bottom: 40px;">
+      <a style="position: absolute;right: 0;" class="btn btn-default add_fields text-right" onclick = "addSkillArea()">スキルを追加</a>
+    </div>
+    <!--<div id="skill_select_area"></div>-->
+    <table id="search_skill_table" class="table table-bordered">
+      <thead>
+        <tr>
+          <th>スキル</th>
+          <th>削除</th>
+        </tr>
+      </thead>
+      <tbody id="skill_select_area">
+      </tbody>
+    </table>
+    <div class="actions">
+       <%=f.submit "検索", class:"btn btn-primary" %>
+    </div>
+  <% end %>
+</div>
+
+<%= form_with(scope: :search, url: users_path, method: :get, local: true) do |f| %>
+  <div style="display:none;">
+    <%= f.text_field :name, value: @search_params[:name] %>
+    <%= f.collection_select :gender, User.genders, :first, :first, options = {include_blank: true,  selected: @search_params[:gender]}  %>
+    <%= f.collection_select :department_id, Department.all, :id, :name, options = {include_blank: true,  selected: @search_params[:department_id]}  %>
+    <%= f.date_field :birthday_from, value: @search_params[:birthday_from] %> ~ <%= f.date_field :birthday_to, value: @search_params[:birthday_to] %>
+    <input type="checkbox" value="true" name="search[subordinate]" id="search_subordinate2">
+    <table id="search_skill_table" class="table table-bordered">
+      <thead>
+        <tr>
+          <th>スキル</th>
+          <th>削除</th>
+        </tr>
+      </thead>
+      <tbody id="skill_select_area2">
+      </tbody>
+    </table>
+  </div>
+  <br>
+  <button type='submit' name='format' value='csv' class='btn btn-secondary'>
+    データ出力
+  </button>
+<% end %>
+
+</br>
+<div class="col-md-12">
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>email</th>
+    <th>名前</th>
+    <th>所属</th>
+    <th>役職</th>
+    <th>業界経験年数</th>
+    <th>誕生日</th>
+    <th>住所</th>
+    <th>最寄り駅</th>
+    <th>性別</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @users.each do |user| %>
+    <tr>
+      <td><%= link_to user.email, user_path(user) %></td>
+      <td><%= user.name %></td>
+      <td><%= user.department.name %></td>
+      <td><%= user.role.name %></td>
+      <td><%= user.years_of_experience %></td>
+      <td><%= user.birthday %></td>
+      <td><%= user.address %></td>
+      <td><%= user.closest_station %></td>
+      <td><%= user.gender %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+</div>
+<br>
+
+<div id="skill_all" data-json="<%= @skill_all.to_json %>" ></div>
+<div id="search_param" data-json="<%= @search_params.to_json %>" ></div>

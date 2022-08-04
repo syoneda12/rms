@@ -1,0 +1,39 @@
+<%= javascript_include_tag 'organizations_edit.js', 'data-turbolinks-track' => true %>
+<% content_for :title do %>
+    配置編集
+<% end %>
+<div>
+    Email：<%= @user.email%>
+</div>
+<div>
+    名前：<%= @user.name%>
+</div>
+<%= form_with(url: organization_path(@user.id),local:true,method: :patch) do |f| %>
+<div class="col-sm-12">
+  <div style="position: relative;bottom: 40px;">
+    <h3 style="position: absolute;left: 0;">部下一覧</h3>
+    <a  style="position: absolute;right: 0;" class="btn btn-default add_fields text-right" onclick = "addSubordinatesArea()">部下を追加</a>
+  </div>
+  <!--</br>-->
+  <!-- </br>-->
+  <div style="margin-top: 60px;">
+    <table id="subordinates-table" class="table table-bordered">
+      <thead>
+        <tr>
+          <th>名前</th>
+          <th>削除</th>
+        </tr>
+      </thead>
+      <tbody id="subordinates-tbody">
+          
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="text-center">
+  <%= f.submit '登録', class: 'btn btn-primary' %>
+</div>
+<% end %>
+
+<div id="select_users" data-json="<%= @select_users.to_json %>" ></div>
+<div id="subordinates" data-json="<%= @subordinates.to_json %>" ></div>

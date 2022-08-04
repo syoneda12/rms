@@ -1,0 +1,44 @@
+<% content_for :title do %>
+    部下詳細
+<% end %>
+[<%= link_to "編集", edit_subordinate_path(@user) %>]
+</br>
+<h2>基本情報</h2>
+<div>
+    Email：<%= @user.email%>
+</div>
+<div>
+    名前：<%= @user.name%>
+</div>
+<div>
+    所属：<%= @user.department_id%>
+</div>
+<div>
+    役職：<%= @user.role_id%>
+</div>
+<div>
+    業界経験年数：<%= @user.years_of_experience%>
+</div>
+<div>
+    誕生日：<%= @user.birthday%>
+</div>
+<div>
+    住所：<%= @user.address%>
+</div>
+<div>
+    最寄り駅：<%= @user.closest_station%>
+</div>
+<div>
+    性別：<%= @user.gender%>
+</div>
+</br>
+<h2>スキル</h2>
+<% @skill_kind_hash.each do |kind_name, skill_detail_ary| %>
+   <h3><%= kind_name%></h3>
+    <% skill_detail_ary.each do |skill_detail_hash| %>
+        <% if skill_detail_hash["hide"] == 0 %>
+             <div><%= skill_detail_hash["skill_name"]%>：<%= skill_detail_hash["skill_level_name"]%></div>
+        <% end %>
+    <% end %>
+    </br>
+<% end %>

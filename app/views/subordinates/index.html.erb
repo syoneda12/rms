@@ -1,0 +1,63 @@
+<% content_for :title do %>
+    部下検索
+<% end %>
+<div class="search-form">
+  <%= form_with(scope: :search, url: users_path, method: :get, local: true) do |f| %>
+    <div class="field">
+      <%= f.label(:name, User.human_attribute_name(:name)) %>
+      <%= f.text_field :name, value: @search_params[:name] %>
+    </div>
+    
+    <div class="field">
+        <%= f.label(:gender, User.human_attribute_name(:gender)) %>
+        <%= f.collection_select :gender, User.genders, :first, :first, options = {include_blank: true,  selected: @search_params[:gender]}  %>
+    </div>
+    <div class="field">
+        <%= f.label(:department_id, User.human_attribute_name(:department_id)) %>
+        <%= f.collection_select :department_id, Department.all, :id, :name, options = {include_blank: true,  selected: @search_params[:department_id]}  %>
+    </div>
+    <div class="field">
+      <%= f.label(:birthday, User.human_attribute_name(:birthday)) %>
+      <%= f.date_field :birthday_from, value: @search_params[:birthday_from] %> ~ <%= f.date_field :birthday_to, value: @search_params[:birthday_to] %>
+    </div>
+    <div class="actions">
+       <%=f.submit "検索", class:"btn btn-primary" %>
+    </div>
+  <% end %>
+</div>
+</br>
+<div class="col-md-12">
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>email</th>
+    <th>名前</th>
+    <th>所属</th>
+    <th>役職</th>
+    <th>業界経験年数</th>
+    <th>誕生日</th>
+    <th>住所</th>
+    <th>最寄り駅</th>
+    <th>性別</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @users.each do |user| %>
+    <tr>
+      <td><%= link_to user.email, subordinate_path(user) %></td>
+      <td><%= user.name %></td>
+      <td><%= user.department.name %></td>
+      <td><%= user.role.name %></td>
+      <td><%= user.years_of_experience %></td>
+      <td><%= user.birthday %></td>
+      <td><%= user.address %></td>
+      <td><%= user.closest_station %></td>
+      <td><%= user.gender %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+</div>
+<br>
+
